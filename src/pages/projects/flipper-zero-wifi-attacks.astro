@@ -1,0 +1,231 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import { projects } from '@/data/projects';
+
+const project = projects.find(p => p.slug === 'flipper-zero-wifi-attacks')!;
+---
+
+<ProjectLayout {...project}>
+  <!-- ── Overview ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">01.</span> Overview
+    </h2>
+    <p class="text-text-muted font-sans leading-relaxed mb-4">
+      This was my senior capstone project for the Bachelor of Computer Information Systems —
+      Cybersecurity at the University of Akron. The goal was to prove, hands-on, that
+      WPA2-Personal networks can be compromised with consumer hardware costing under $250 — no
+      specialized lab equipment or Kali Linux setup required — and then verify that the
+      recommended mitigations actually work against real attack tools.
+    </p>
+    <p class="text-text-muted font-sans leading-relaxed">
+      Two independent attack vectors were demonstrated and compared: a cryptographic attack
+      that captures and cracks the WPA2 4-way handshake, and a social engineering attack that
+      bypasses encryption entirely by tricking users into handing over credentials through a
+      spoofed captive portal. Both run on the same Flipper Zero with an ESP32 Wi-Fi Dev Board.
+    </p>
+  </section>
+
+  <!-- ── Lab Setup ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">02.</span> Lab Setup
+    </h2>
+    <div class="bg-bg-card border border-border rounded-lg overflow-hidden mb-6">
+      <table class="w-full text-sm">
+        <thead class="border-b border-border">
+          <tr>
+            <th class="text-left font-mono text-xs text-text-muted uppercase tracking-wider px-4 py-3">Component</th>
+            <th class="text-left font-mono text-xs text-text-muted uppercase tracking-wider px-4 py-3">Details</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border">
+          {[
+            ['Attack device',    'Flipper Zero — Momentum firmware MNTM-011'],
+            ['Wi-Fi module',     'ESP32 Wi-Fi Dev Board — Marauder firmware v1.10.2 (flashed via FzeeFlasher)'],
+            ['Target router',    'Netgear Nighthawk AX1800 R6700AX (isolated from primary network)'],
+            ['Target networks',  '2.4 GHz: CM_Link / The_Nap · 5 GHz: CM_Link-5G'],
+            ['Cracking VM',      'Parrot Security OS (Security Edition) on Proxmox VE 9.1'],
+            ['GPU passthrough',  'NVIDIA GeForce GTX 1650 via IOMMU/VFIO — ~185 kH/s on WPA mode 22000'],
+            ['File transfer',    'qFlipper v1.3.3 + SCP to VM'],
+            ['Client devices',   'Researcher-owned iPhone and Windows desktop'],
+          ].map(([component, spec]) => (
+            <tr class="hover:bg-bg-elevated/30 transition-colors">
+              <td class="px-4 py-3 font-mono text-xs text-text-muted whitespace-nowrap">{component}</td>
+              <td class="px-4 py-3 font-sans text-sm text-text-primary">{spec}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Attack Vector 1 ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">03.</span> Attack Vector 1 — Deauthentication &amp; Handshake Crack
+    </h2>
+    <div class="space-y-6 text-text-muted font-sans leading-relaxed">
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">How the attack works</h3>
+        <p>
+          The 802.11 deauthentication frame is unauthenticated by design. Any device within radio range
+          can broadcast a deauth frame that forces a client to disconnect and immediately reconnect.
+          That reconnection triggers the WPA2 4-way handshake, which an attacker can capture and take
+          offline for cracking — completely without interacting with the target's password in real time.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Execution</h3>
+        <p>
+          On the Flipper Zero, the ESP32 Marauder app scanned for access points (<code class="tag-cyan">scan ap</code>),
+          targeted CM_Link, then ran <code class="tag-cyan">sniff pmkid</code> with deauth enabled.
+          Within seconds the display showed <code class="tag-cyan">DEAUTH TX: TRUE</code> and saved
+          <code class="tag-cyan">sniffpmkid_0.pcap</code> to the SD card. The file was pulled via
+          qFlipper and transferred to the Parrot OS VM over SCP.
+        </p>
+        <p class="mt-3">
+          On the VM, <code class="tag-cyan">hcxpcapngtool</code> converted the pcap to Hashcat format
+          22000. A wordlist attack with <code class="tag-cyan">rockyou.txt</code> at 167 H/s (CPU-only
+          on VirtualBox, ~21 hours estimated) was abandoned after migrating to Proxmox with GPU
+          passthrough, jumping to 185 kH/s. The test password <code class="tag-cyan">19002521</code>
+          (8-digit numeric) wasn't in rockyou.txt, but a brute-force mask attack
+          (<code class="tag-cyan">?d?d?d?d?d?d?d?d</code>) cracked it in <strong class="text-text-primary">1 minute 45 seconds</strong>.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Mitigations tested</h3>
+        <ul class="space-y-3 mt-2">
+          {[
+            ['WPA3-Personal', 'Switched the router to WPA3-Personal (SAE). hcxpcapngtool returned "no hashes written to hash files" — the attack path is completely eliminated. WPA3 SAE replaces the static PSK exchange with a forward-secret Dragonfly handshake that cannot be captured and cracked offline.'],
+            ['Strong passphrase', 'Changed the password to Sunshine@Home123 (17 characters, mixed). Brute-force immediately returned an integer overflow error on the keyspace — computationally infeasible. However, the wordlist attack recovered it in ~2 hours because it appeared in rockyou.txt. Lesson: length stops brute-force, but uniqueness stops dictionary attacks — you need both.'],
+            ['SSID broadcast disabled', 'Hiding the SSID removed CM_Link / The_Nap from the Marauder AP scan list entirely. Effective, but impractical for networks that frequently onboard new devices.'],
+          ].map(([label, detail]) => (
+            <li class="flex items-start gap-3">
+              <span class="text-accent-cyan font-mono text-xs mt-1 shrink-0">→</span>
+              <span class="leading-relaxed"><strong class="text-text-primary">{label}:</strong> {detail}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Attack Vector 2 ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">04.</span> Attack Vector 2 — Evil Twin Captive Portal
+    </h2>
+    <div class="space-y-6 text-text-muted font-sans leading-relaxed">
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">How the attack works</h3>
+        <p>
+          Instead of breaking encryption, the Evil Twin attack exploits user trust in SSIDs. The Flipper
+          broadcasts a rogue open access point with the same name as a nearby network. When a victim
+          connects, the captive portal system on their device automatically opens a browser to whatever
+          HTML page the attacker has loaded on the Flipper — a convincing login page for Apple, Starbucks,
+          or a router admin panel. Credentials entered are logged directly on the Flipper Zero display.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Execution</h3>
+        <p>
+          Spoofed HTML login pages (Apple, Starbucks, TP-Link) were sourced from the open-source
+          FlipperZeroEuropeanPortals repository and uploaded to <code class="tag-cyan">SD_Card/apps_data/evil_portal/html/</code>
+          via qFlipper. The AP name was set to <code class="tag-cyan">The_Nap</code> to mirror the real network.
+          On a victim iPhone, the rogue AP appeared in the Wi-Fi list as an open/unsecured network
+          sitting alongside the real password-protected one. Connecting triggered the captive portal
+          immediately. After entering <code class="tag-cyan">FakeEmail@gmail.com / Test123</code> on the
+          Apple ID page, the Flipper display instantly showed the captured credentials.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Mitigations observed</h3>
+        <ul class="space-y-3 mt-2">
+          {[
+            ['Duplicate SSID awareness', 'When named The_Nap, Windows showed two entries side by side — one with a lock icon (real), one without (rogue). A security-aware user would recognize that a network previously requiring a password should never appear as open.'],
+            ['Browser security warnings', 'Chrome displayed "Not Secure — 172.0.0.1" with the rogue AP\'s actual IP address in the address bar. The lock icon revealed an explicit warning against entering sensitive information. Any user who reads and acts on this warning is protected.'],
+          ].map(([label, detail]) => (
+            <li class="flex items-start gap-3">
+              <span class="text-accent-cyan font-mono text-xs mt-1 shrink-0">→</span>
+              <span class="leading-relaxed"><strong class="text-text-primary">{label}:</strong> {detail}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Results comparison ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">05.</span> Results Comparison
+    </h2>
+    <div class="bg-bg-card border border-border rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="border-b border-border">
+          <tr>
+            <th class="text-left font-mono text-xs text-text-muted uppercase tracking-wider px-4 py-3">Metric</th>
+            <th class="text-left font-mono text-xs text-text-muted uppercase tracking-wider px-4 py-3">Deauth / Handshake</th>
+            <th class="text-left font-mono text-xs text-text-muted uppercase tracking-wider px-4 py-3">Evil Twin Portal</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border">
+          {[
+            ['Setup time',        '~5 min (scan, select, capture, transfer)', '~3 min (upload HTML, set AP name)'],
+            ['Technical barrier', 'Medium — requires VM + Hashcat knowledge', 'Low — point and click on Flipper'],
+            ['Password required', 'No — captures hash for offline cracking',  'No — social engineering bypass'],
+            ['Success rate',      'High for weak/short passwords; blocked by WPA3', 'High against unaware users; reduced by browser warnings'],
+            ['Primary mitigation','WPA3-Personal eliminates the attack path entirely', 'User awareness + verifying the URL / SSID lock icon'],
+          ].map(([metric, deauth, evil]) => (
+            <tr class="hover:bg-bg-elevated/30 transition-colors">
+              <td class="px-4 py-3 font-mono text-xs text-text-muted whitespace-nowrap">{metric}</td>
+              <td class="px-4 py-3 font-sans text-sm text-text-primary">{deauth}</td>
+              <td class="px-4 py-3 font-sans text-sm text-text-primary">{evil}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Lessons Learned ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">06.</span> Lessons Learned
+    </h2>
+    <ul class="space-y-3 text-text-muted font-sans">
+      {[
+        'WPA3-Personal is the only mitigation that fully closes the deauthentication attack path. A strong password is not a substitute — it only raises the cost of cracking.',
+        'Password length stops brute-force but not dictionary attacks. A passphrase that appears in rockyou.txt (like Sunshine@Home123) will eventually be cracked regardless of length.',
+        'The Evil Twin attack has nothing to do with encryption strength — it bypasses it entirely. The only reliable defenses are user education and SSID awareness.',
+        'GPU acceleration is the practical dividing line for cracking. 167 H/s on CPU versus 185 kH/s on a GTX 1650 is a ~1,100× difference — the same gap separates "infeasible" from "minutes."',
+        'The ESP32\'s 2.4 GHz-only constraint means any client that prefers 5 GHz exclusively is out of range for the Marauder deauth. Dual-band networks with 5 GHz-preferred clients are meaningfully harder to target.',
+      ].map(lesson => (
+        <li class="flex items-start gap-3">
+          <span class="text-accent-cyan font-mono text-xs mt-1">→</span>
+          <span class="leading-relaxed">{lesson}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ── What's Next ── -->
+  <section>
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">07.</span> Future Directions
+    </h2>
+    <p class="text-text-muted font-sans leading-relaxed">
+      The natural extension is evaluating WPA3 transition mode versus strict mode across different
+      router vendors — some transition-mode implementations may still expose WPA2 fallback paths.
+      Comparing PMKID-only (clientless) capture against traditional EAPOL handshake capture would
+      also be worth quantifying across hardware. Longer term, flipping to the defender's perspective
+      and building a wireless intrusion detection layer for the homelab would complement these
+      offensive findings directly.
+    </p>
+  </section>
+</ProjectLayout>
