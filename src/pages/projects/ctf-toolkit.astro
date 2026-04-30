@@ -1,0 +1,158 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import { projects } from '@/data/projects';
+
+const project = projects.find(p => p.slug === 'ctf-toolkit')!;
+---
+
+<ProjectLayout {...project}>
+  <!-- ── Overview ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">01.</span> Overview
+    </h2>
+    <p class="text-text-muted font-sans leading-relaxed mb-4">
+      Capture the Flag competitions have a repeating problem: the first 20 minutes of any
+      challenge are spent running the same recon and decoding commands you ran last week.
+      Identify the encoding, decode the layers, check for steganography, fingerprint the
+      cipher, try the common attacks — all before you even get to the interesting part.
+    </p>
+    <p class="text-text-muted font-sans leading-relaxed">
+      This toolkit started as a collection of one-off scripts I kept copy-pasting between
+      CTF directories. Over time it grew into a structured CLI with subcommands for each
+      category, a local SQLite-backed flag tracker, and a templating system for common
+      exploit structures.
+    </p>
+  </section>
+
+  <!-- ── Features ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">02.</span> Feature Set
+    </h2>
+    <div class="grid sm:grid-cols-2 gap-4">
+      {[
+        {
+          name: 'ctf decode',
+          desc: 'Detects and recursively strips Base16/32/58/64/85, URL, HTML, and Morse encoding layers.',
+        },
+        {
+          name: 'ctf freq',
+          desc: 'English frequency analysis and index-of-coincidence test for classical substitution ciphers. Auto-suggests candidate keys for Vigenère.',
+        },
+        {
+          name: 'ctf steg',
+          desc: 'Wraps zsteg, stegdetect, and custom LSB extraction into a single command. Handles BMP, PNG, WAV.',
+        },
+        {
+          name: 'ctf fmt',
+          desc: 'Generates format-string exploit templates given offset and target address. Supports 32- and 64-bit.',
+        },
+        {
+          name: 'ctf hash',
+          desc: 'Identifies hash types with hashid, queries common rainbow table APIs, and optionally dispatches to hashcat with a wordlist.',
+        },
+        {
+          name: 'ctf note',
+          desc: 'Per-challenge note store backed by SQLite. Track flags, partial solutions, and hints with timestamps.',
+        },
+      ].map(({ name, desc }) => (
+        <div class="bg-bg-card border border-border rounded-lg p-4">
+          <code class="tag-cyan text-sm mb-2 inline-block">{name}</code>
+          <p class="text-text-muted font-sans text-sm leading-relaxed">{desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── How it was built ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">03.</span> How It Was Built
+    </h2>
+
+    <div class="space-y-6 text-text-muted font-sans leading-relaxed">
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">CLI framework</h3>
+        <p>
+          The toolkit is built with Python's <code class="tag">click</code> library, which
+          provides clean subcommand registration, help generation, and type-checked argument
+          parsing. Each category lives in its own module under <code class="tag">ctftoolkit/commands/</code>,
+          and the main entry point registers them automatically by scanning the directory —
+          adding a new subcommand is as simple as dropping a new file.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Encoding detection</h3>
+        <p>
+          Automatic encoding identification turned out to be harder than expected. Base64 and
+          Base32 overlap in character set; some Base58-encoded strings look like valid hex.
+          The detection pipeline applies a ranked set of heuristics — character set analysis,
+          length divisibility, padding presence — and confirms each candidate by attempting
+          to decode it and checking if the result is printable ASCII or known binary magic bytes.
+          Layers are unwrapped recursively up to a configurable depth (default: 8).
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Steganography pipeline</h3>
+        <p>
+          Rather than reimplement steg tools, the module shells out to installed binaries
+          (<code class="tag">zsteg</code>, <code class="tag">stegdetect</code>,
+          <code class="tag">binwalk</code>) and aggregates their outputs into a structured
+          JSON report. The LSB extractor is native Python using Pillow and handles all
+          common bit-plane orderings that CTF challenge authors tend to use.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Distribution and install</h3>
+        <p>
+          Packaged with <code class="tag">pyproject.toml</code> using the Hatchling build backend.
+          Installable from the repo with <code class="tag-cyan">pip install -e .</code> or as a
+          global tool via <code class="tag-cyan">pipx install</code>. Optional dependencies
+          (hashcat integration, numpy for signal-processing tasks) are declared as extras.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Sample output ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">04.</span> Sample Output
+    </h2>
+    <pre class="bg-bg-elevated border border-border rounded-lg p-5 overflow-x-auto text-xs font-mono leading-relaxed text-text-muted"><code><span class="text-accent-green">$</span> ctf decode "U2FsdGVkX1+Vp8..."
+<span class="text-text-muted">Attempting layer 1: base64</span>
+<span class="text-accent-cyan">✓ base64</span>  →  "Salted__[binary]"
+<span class="text-text-muted">Detected: OpenSSL-encrypted blob (AES-256-CBC)</span>
+<span class="text-text-muted">No further decodable layers. Final output saved to output.bin</span>
+
+<span class="text-accent-green">$</span> ctf steg suspicious.png
+<span class="text-accent-cyan">Running: zsteg, stegdetect, LSB extractor</span>
+<span class="text-text-muted">[zsteg]   b1,r,lsb,xy → "CTF&#123;h1dd3n_1n_pl41n_s1ght&#125;"</span>
+<span class="text-text-muted">[LSB]     RGB planes 0,1,2 — no readable ASCII</span>
+<span class="text-accent-cyan">✓ Flag candidate found. Logged to challenge notes.</span></code></pre>
+  </section>
+
+  <!-- ── Lessons learned ── -->
+  <section>
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">05.</span> Lessons Learned
+    </h2>
+    <ul class="space-y-3 text-text-muted font-sans">
+      {[
+        "Encoding detection can't be purely heuristic — confirming by attempting a round-trip decode and sanity-checking the output cut false positives from ~30% to under 5%.",
+        'Shelling out to external tools is fine, but you must handle missing binaries gracefully — not every CTF box has zsteg installed.',
+        'The note tracker has been the most-used feature in actual competitions. Even simple persistence across terminal sessions is underrated.',
+        'Packaging with pyproject.toml and publishing to a private PyPI-compatible index (via Cloudflare R2) makes distribution to team members trivial.',
+      ].map(lesson => (
+        <li class="flex items-start gap-3">
+          <span class="text-accent-cyan font-mono text-xs mt-1">→</span>
+          <span class="leading-relaxed">{lesson}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+</ProjectLayout>

@@ -1,0 +1,198 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+// Replace with your Formspree form ID after creating a form at formspree.io
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Christopher Badgett — questions, opportunities, or just saying hello."
+>
+  <section class="bg-bg-surface border-b border-border">
+    <div class="container py-16 sm:py-20">
+      <p class="section-label">// get in touch</p>
+      <h1 class="section-title text-4xl sm:text-5xl">Contact</h1>
+      <p class="text-text-muted font-sans text-lg mt-4 max-w-xl">
+        Whether you have a question about a project, a collaboration idea, or you just want
+        to talk homelab — my inbox is open.
+      </p>
+    </div>
+  </section>
+
+  <div class="container py-16">
+    <div class="grid lg:grid-cols-5 gap-16">
+      <!-- Form -->
+      <div class="lg:col-span-3">
+        <form
+          id="contact-form"
+          action={FORMSPREE_ENDPOINT}
+          method="POST"
+          class="space-y-5"
+          novalidate
+        >
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="name" class="block font-mono text-sm text-text-muted mb-2">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                autocomplete="name"
+                placeholder="Your name"
+                class="input-field"
+              />
+            </div>
+            <div>
+              <label for="email" class="block font-mono text-sm text-text-muted mb-2">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                placeholder="you@example.com"
+                class="input-field"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="subject" class="block font-mono text-sm text-text-muted mb-2">Subject</label>
+            <input
+              id="subject"
+              name="subject"
+              type="text"
+              required
+              placeholder="What's this about?"
+              class="input-field"
+            />
+          </div>
+
+          <div>
+            <label for="message" class="block font-mono text-sm text-text-muted mb-2">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              required
+              placeholder="Tell me what's on your mind..."
+              class="input-field resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Honeypot (spam prevention) -->
+          <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
+
+          <div id="form-status" class="hidden">
+            <!-- success / error messages injected here -->
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/>
+            </svg>
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="lg:col-span-2 space-y-8">
+        <div class="bg-bg-card border border-border rounded-lg p-6">
+          <h2 class="font-mono font-semibold text-text-primary mb-5 flex items-center gap-2">
+            <span class="text-accent-cyan">$</span> other channels
+          </h2>
+          <ul class="space-y-4">
+            <li>
+              <a
+                href="#"
+                class="flex items-center gap-3 text-text-muted hover:text-accent-cyan transition-colors group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+                <div>
+                  <p class="font-mono text-sm group-hover:text-accent-cyan transition-colors">GitHub</p>
+                  <p class="text-xs text-text-muted/60">@cmbadgett</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center gap-3 text-text-muted hover:text-accent-cyan transition-colors group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                <div>
+                  <p class="font-mono text-sm group-hover:text-accent-cyan transition-colors">LinkedIn</p>
+                  <p class="text-xs text-text-muted/60">Christopher Badgett</p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-bg-card border border-border rounded-lg p-6">
+          <h2 class="font-mono font-semibold text-text-primary mb-3 flex items-center gap-2">
+            <span class="text-accent-cyan">$</span> response time
+          </h2>
+          <p class="text-text-muted font-sans text-sm leading-relaxed">
+            I check messages within a couple of days. For anything urgent, LinkedIn DMs
+            tend to get a faster response.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const form   = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('form-status')!;
+  const btn    = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+
+      status.classList.remove('hidden');
+
+      if (res.ok) {
+        form.reset();
+        status.innerHTML = `
+          <div class="flex items-start gap-3 p-4 rounded bg-accent-green/10 border border-accent-green/30 text-accent-green font-mono text-sm">
+            <span class="mt-0.5">✓</span>
+            <span>Message sent — I'll get back to you soon.</span>
+          </div>`;
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+      } else {
+        throw new Error('Server responded with an error.');
+      }
+    } catch {
+      status.innerHTML = `
+        <div class="flex items-start gap-3 p-4 rounded bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm">
+          <span class="mt-0.5">✗</span>
+          <span>Something went wrong. Try emailing directly or reaching out on LinkedIn.</span>
+        </div>`;
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+    }
+  });
+</script>

@@ -1,0 +1,121 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Lightbox from '@/components/Lightbox.astro';
+import { prints } from '@/data/prints';
+
+const allTags = [...new Set(prints.flatMap(p => p.tags))].sort();
+---
+
+<BaseLayout
+  title="3D Print Gallery"
+  description="A gallery of 3D printed parts, enclosures, and hobby prints by Christopher Badgett."
+>
+  <section class="bg-bg-surface border-b border-border">
+    <div class="container py-16 sm:py-20">
+      <p class="section-label">// fabricated in-house</p>
+      <h1 class="section-title text-4xl sm:text-5xl">3D Print Gallery</h1>
+      <p class="text-text-muted font-sans text-lg mt-4 max-w-2xl">
+        Functional parts, cable management, display pieces, and the occasional flexi toy.
+        Primarily FDM on a Bambu Lab P1S, with some resin work on the Elegoo Saturn 4 Ultra.
+      </p>
+    </div>
+  </section>
+
+  <div class="container py-16">
+    <!-- Tag filters -->
+    <div class="mb-10 flex flex-wrap gap-2" id="tag-filters">
+      <button
+        class="tag cursor-pointer hover:border-accent-cyan hover:text-accent-cyan transition-colors"
+        data-filter="all"
+        data-active="true"
+        style="color: #00d4ff; border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.1);"
+      >
+        all
+      </button>
+      {allTags.map(tag => (
+        <button
+          class="tag cursor-pointer hover:border-accent-cyan hover:text-accent-cyan transition-colors"
+          data-filter={tag}
+          data-active="false"
+        >
+          {tag}
+        </button>
+      ))}
+    </div>
+
+    <!-- Masonry grid -->
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5" id="gallery-grid">
+      {prints.map((print, idx) => (
+        <div
+          class="break-inside-avoid bg-bg-card border border-border rounded-lg overflow-hidden hover:border-border-bright transition-all duration-300 group"
+          data-tags={print.tags.join(',')}
+        >
+          <!-- Image trigger for lightbox -->
+          <div
+            class="overflow-hidden"
+            data-lightbox-src={print.imageUrl}
+            data-lightbox-alt={print.title}
+            data-lightbox-caption={`${print.title} · ${print.material} · ${print.printer}`}
+          >
+            <img
+              src={print.imageUrl}
+              alt={print.title}
+              class="w-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading={idx < 4 ? 'eager' : 'lazy'}
+            />
+          </div>
+
+          <div class="p-4">
+            <h3 class="font-mono font-semibold text-text-primary text-sm leading-snug mb-1">
+              {print.title}
+            </h3>
+            <p class="text-text-muted text-xs font-sans leading-relaxed mb-3">
+              {print.description}
+            </p>
+            <div class="flex flex-wrap gap-1.5 border-t border-border/50 pt-3">
+              <span class="tag-cyan">{print.material}</span>
+              <span class="tag">{print.printer}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p id="no-results" class="hidden text-text-muted font-mono text-center py-12">
+      No prints match that filter.
+    </p>
+  </div>
+
+  <Lightbox />
+</BaseLayout>
+
+<script>
+  const filters   = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards     = document.querySelectorAll<HTMLElement>('#gallery-grid > [data-tags]');
+  const noResults = document.getElementById('no-results')!;
+
+  let active = 'all';
+
+  const activeStyle   = 'color:#00d4ff;border-color:rgba(0,212,255,0.3);background:rgba(0,212,255,0.1);';
+  const inactiveStyle = '';
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      active = btn.dataset.filter!;
+      filters.forEach(b => {
+        b.dataset.active = String(b.dataset.filter === active);
+        b.setAttribute('style', b.dataset.active === 'true' ? activeStyle : inactiveStyle);
+      });
+
+      let visible = 0;
+      cards.forEach(card => {
+        const tags = card.dataset.tags!.split(',');
+        const show = active === 'all' || tags.includes(active);
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      noResults.classList.toggle('hidden', visible > 0);
+    });
+  });
+</script>

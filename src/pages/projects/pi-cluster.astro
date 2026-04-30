@@ -1,0 +1,134 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import { projects } from '@/data/projects';
+
+const project = projects.find(p => p.slug === 'pi-cluster')!;
+---
+
+<ProjectLayout {...project}>
+  <!-- ── Overview ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">01.</span> Overview
+    </h2>
+    <p class="text-text-muted font-sans leading-relaxed mb-4">
+      Reading the Kubernetes documentation is one thing. Actually running a cluster — dealing
+      with ingress, storage classes, node failures, and rolling updates on hardware that cost
+      you real money — is something else entirely. This project was built specifically to
+      develop hands-on Kubernetes experience in a controlled environment where breaking
+      something costs nothing beyond a few minutes of troubleshooting.
+    </p>
+    <p class="text-text-muted font-sans leading-relaxed">
+      The cluster runs four Raspberry Pi 4 (8 GB) nodes, uses K3s as the lightweight
+      Kubernetes distribution, and is managed entirely through GitOps using Flux CD. If it
+      isn't in Git, it doesn't exist in the cluster.
+    </p>
+  </section>
+
+  <!-- ── Hardware ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">02.</span> Hardware
+    </h2>
+    <div class="bg-bg-card border border-border rounded-lg p-5 font-mono text-sm">
+      <div class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-text-muted">
+        <span>Nodes</span>         <span class="text-text-primary">4 × Raspberry Pi 4 Model B (8 GB RAM)</span>
+        <span>Storage</span>       <span class="text-text-primary">4 × 256 GB Samsung Endurance microSD (OS) + USB SSD per node (Longhorn)</span>
+        <span>Network</span>       <span class="text-text-primary">Gigabit ethernet — 8-port TP-Link managed switch (VLAN-isolated)</span>
+        <span>Power</span>         <span class="text-text-primary">4-port Anker USB-C GaN hub with per-port power monitoring</span>
+        <span>Enclosure</span>     <span class="text-text-primary">Custom-printed 4U rack (see gallery)</span>
+        <span>Control plane</span> <span class="text-text-primary">1 node (pi-01) — the others are worker nodes</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it was built ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">03.</span> How It Was Built
+    </h2>
+
+    <div class="space-y-6 text-text-muted font-sans leading-relaxed">
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Provisioning with Ansible</h3>
+        <p>
+          All four nodes are imaged from the same Raspberry Pi OS Lite (64-bit) base and
+          provisioned using an Ansible playbook that handles system updates, sets hostnames,
+          configures static IPs, enables <code class="tag">cgroups v2</code> and memory
+          accounting in the kernel command line (required for K3s), and installs K3s in
+          server (control-plane) or agent (worker) mode depending on the host group.
+          Reprovisioning a wiped node takes about 8 minutes.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">K3s configuration</h3>
+        <p>
+          K3s ships with Traefik as the default ingress controller, which I kept. The default
+          local-path storage class is replaced with Longhorn for distributed, replicated
+          persistent volumes — each PVC is replicated across 2 of the 4 nodes, so a single
+          node failure doesn't take down stateful workloads. Flannel (the default CNI) handles
+          pod networking with VXLAN for cross-node traffic.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">GitOps with Flux CD</h3>
+        <p>
+          Flux monitors a private GitHub repository for changes to Kubernetes manifests.
+          Any commit to the <code class="tag">main</code> branch that touches a manifest is
+          automatically reconciled into the cluster within 60 seconds. Helm releases are
+          managed through Flux's HelmRelease CRDs, which handle upgrades, rollbacks, and
+          drift detection. Secrets are encrypted in Git using Mozilla SOPS with an age key
+          stored offline.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-mono text-sm font-semibold text-text-primary mb-2">Workloads running on the cluster</h3>
+        <p>
+          The cluster currently runs: a local DNS override service (not Pi-hole — that stays
+          on its own Pi), a Prometheus + Grafana observability stack, a private Gitea instance
+          for self-hosted Git, a Miniflux RSS reader, and a Bitwarden-compatible Vaultwarden
+          password manager. All are exposed through Traefik with TLS terminated via Let's Encrypt
+          (DNS-01 challenge through Cloudflare API).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Lessons learned ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">04.</span> Lessons Learned
+    </h2>
+    <ul class="space-y-3 text-text-muted font-sans">
+      {[
+        'ARM-based clusters (aarch64) occasionally surface issues with container images that only publish amd64 — always check for multi-arch manifests before committing to a piece of software.',
+        'Longhorn\'s replication adds meaningful overhead on gigabit ethernet with Raspberry Pi CPUs. Some latency-sensitive apps are better off with local-path storage and an explicit backup strategy.',
+        'GitOps discipline pays off. Being able to nuke the entire cluster and re-converge to the desired state in under 30 minutes is genuinely useful when you experiment as aggressively as I do.',
+        'MicroSD cards fail under Kubernetes write load. USB SSDs for any stateful workload storage is non-negotiable.',
+        'Understanding the control loop model — how Kubernetes continuously reconciles actual state to desired state — was the biggest mental shift coming from a "run the command, check it happened" background.',
+      ].map(lesson => (
+        <li class="flex items-start gap-3">
+          <span class="text-accent-cyan font-mono text-xs mt-1">→</span>
+          <span class="leading-relaxed">{lesson}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ── What's next ── -->
+  <section>
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">05.</span> What's Next
+    </h2>
+    <p class="text-text-muted font-sans leading-relaxed">
+      The immediate next step is migrating the app workloads currently running inside
+      TrueNAS's built-in K3s to this cluster, so the NAS can be updated and rebooted
+      independently. After that, I want to add a fifth node and experiment with
+      multi-control-plane HA — currently a single control-plane failure would bring
+      scheduling down until the node recovers.
+    </p>
+  </section>
+</ProjectLayout>

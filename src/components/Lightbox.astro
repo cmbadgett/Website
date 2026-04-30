@@ -1,0 +1,107 @@
+<!-- Zero-dependency lightbox: trigger via data-lightbox-src attributes on any <img> wrapper -->
+<div
+  id="lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Image lightbox"
+  class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+>
+  <button
+    id="lightbox-close"
+    aria-label="Close lightbox"
+    class="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
+  >
+    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+
+  <button
+    id="lightbox-prev"
+    aria-label="Previous image"
+    class="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+  >
+    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </button>
+
+  <button
+    id="lightbox-next"
+    aria-label="Next image"
+    class="absolute right-14 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+  >
+    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+
+  <div class="max-w-5xl w-full">
+    <img
+      id="lightbox-img"
+      src=""
+      alt=""
+      class="max-h-[80vh] w-full object-contain rounded-lg"
+    />
+    <p id="lightbox-caption" class="text-white/70 font-mono text-sm mt-4 text-center"></p>
+  </div>
+</div>
+
+<script>
+  interface LightboxItem { src: string; alt: string; caption: string; }
+
+  const box      = document.getElementById('lightbox')!;
+  const img      = document.getElementById('lightbox-img') as HTMLImageElement;
+  const caption  = document.getElementById('lightbox-caption')!;
+  const btnClose = document.getElementById('lightbox-close')!;
+  const btnPrev  = document.getElementById('lightbox-prev')!;
+  const btnNext  = document.getElementById('lightbox-next')!;
+
+  let items: LightboxItem[] = [];
+  let current = 0;
+
+  function open(index: number) {
+    current = index;
+    const item = items[current];
+    img.src = item.src;
+    img.alt = item.alt;
+    caption.textContent = item.caption;
+    box.classList.remove('hidden');
+    box.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    box.classList.add('hidden');
+    box.classList.remove('flex');
+    document.body.style.overflow = '';
+    img.src = '';
+  }
+
+  function prev() { open((current - 1 + items.length) % items.length); }
+  function next() { open((current + 1) % items.length); }
+
+  btnClose.addEventListener('click', close);
+  btnPrev.addEventListener('click', prev);
+  btnNext.addEventListener('click', next);
+
+  box.addEventListener('click', (e) => { if (e.target === box) close(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (box.classList.contains('hidden')) return;
+    if (e.key === 'Escape')      close();
+    if (e.key === 'ArrowLeft')   prev();
+    if (e.key === 'ArrowRight')  next();
+  });
+
+  // Collect all lightbox triggers after DOM is ready
+  document.querySelectorAll<HTMLElement>('[data-lightbox-src]').forEach((el, idx) => {
+    items.push({
+      src:     el.dataset.lightboxSrc ?? '',
+      alt:     el.dataset.lightboxAlt ?? '',
+      caption: el.dataset.lightboxCaption ?? '',
+    });
+    el.style.cursor = 'zoom-in';
+    el.addEventListener('click', () => open(idx));
+  });
+</script>

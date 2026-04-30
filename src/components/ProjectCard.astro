@@ -1,0 +1,51 @@
+---
+import type { Project } from '@/data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const statusDot: Record<string, string> = {
+  active:    'bg-accent-green',
+  completed: 'bg-accent-cyan',
+  wip:       'bg-yellow-400',
+};
+---
+
+<a
+  href={`/projects/${project.slug}`}
+  class="card group flex flex-col hover:shadow-xl hover:shadow-black/30 hover:-translate-y-1 transition-all duration-300"
+>
+  <div class="aspect-video overflow-hidden bg-bg-elevated">
+    <img
+      src={project.coverImage}
+      alt={project.title}
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
+      loading="lazy"
+    />
+  </div>
+
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <div class="flex items-center gap-2">
+      <span class={`w-2 h-2 rounded-full ${statusDot[project.status]}`}></span>
+      <span class="font-mono text-xs text-text-muted capitalize">{project.status}</span>
+    </div>
+
+    <div>
+      <h3 class="font-mono font-semibold text-text-primary text-lg leading-snug group-hover:text-accent-cyan transition-colors">
+        {project.title}
+      </h3>
+      <p class="text-text-muted text-sm mt-1 font-mono">{project.tagline}</p>
+    </div>
+
+    <p class="text-text-muted/80 text-sm leading-relaxed line-clamp-3 font-sans flex-1">
+      {project.description}
+    </p>
+
+    <div class="flex flex-wrap gap-1.5 mt-auto pt-2">
+      {project.tags.slice(0, 4).map(tag => <span class="tag">{tag}</span>)}
+    </div>
+  </div>
+</a>
