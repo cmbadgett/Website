@@ -1,13 +1,12 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-// Upload your PDF to R2 and update this URL
 const RESUME_PDF_URL = '/resume.pdf';
 ---
 
 <BaseLayout
   title="Resume"
-  description="Resume for Christopher Badgett — cybersecurity student with experience in networking, homelab infrastructure, and security tooling."
+  description="Resume for Christopher Badgett — CIS Cyber Security student at the University of Akron, seeking a Summer 2026 internship or co-op."
 >
   <section class="bg-bg-surface border-b border-border">
     <div class="container py-16 sm:py-20">
@@ -25,7 +24,6 @@ const RESUME_PDF_URL = '/resume.pdf';
         >
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a1 1 0 001 1h16a1 1 0 001-1v-3"/>
-            <path d="M8 2H6a2 2 0 00-2 2v12M16 2h2a2 2 0 012 2v4M8 2l4 4 4-4"/>
           </svg>
           Download PDF
         </a>
@@ -35,154 +33,154 @@ const RESUME_PDF_URL = '/resume.pdf';
 
   <div class="container py-16">
     <div class="max-w-4xl">
-      <!-- Resume document -->
       <div class="bg-bg-card border border-border rounded-lg divide-y divide-border">
 
         <!-- Header -->
         <div class="p-8">
           <h2 class="font-mono text-3xl font-bold text-text-primary">Christopher Badgett</h2>
-          <p class="font-mono text-accent-cyan mt-1">Cybersecurity Student &amp; Homelab Engineer</p>
+          <p class="font-mono text-accent-cyan mt-1">CIS Cyber Security Student · University of Akron</p>
           <div class="flex flex-wrap gap-x-6 gap-y-1 mt-3 text-text-muted font-mono text-sm">
-            <span>United States</span>
+            <span>Akron, Ohio</span>
+            <a href="mailto:cmb408@uakron.edu" class="hover:text-accent-cyan transition-colors">cmb408@uakron.edu</a>
             <a href="https://github.com/cmbadgett" class="hover:text-accent-cyan transition-colors" target="_blank" rel="noopener noreferrer">github.com/cmbadgett</a>
             <a href="https://www.linkedin.com/in/christopher-badgett-b59a86286/" class="hover:text-accent-cyan transition-colors" target="_blank" rel="noopener noreferrer">linkedin.com/in/christopher-badgett</a>
-            <a href="/contact" class="hover:text-accent-cyan transition-colors">cmbadgett.dev/contact</a>
+          </div>
+        </div>
+
+        <!-- Objective -->
+        <div class="p-8">
+          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-4">Objective</h3>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <p class="font-sans text-text-muted leading-relaxed">
+              Seeking a Cyber Security internship or co-op opportunity in 2026.
+            </p>
+            <span class="tag-cyan whitespace-nowrap">Available Summer 2026</span>
           </div>
         </div>
 
         <!-- Education -->
         <div class="p-8">
           <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">Education</h3>
-          <div class="space-y-6">
+          <div class="space-y-5">
             <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
               <div>
-                <h4 class="font-mono font-semibold text-text-primary">B.S. Cybersecurity &amp; Networks</h4>
-                <p class="text-text-muted font-sans text-sm mt-0.5">University — College of Engineering &amp; Computing</p>
-                <ul class="mt-2 space-y-1 text-text-muted font-sans text-sm list-disc list-inside">
-                  <li>Coursework: Network Security, Cryptography, Penetration Testing, Digital Forensics, Cloud Infrastructure</li>
-                  <li>GPA: 3.6 / 4.0</li>
-                  <li>Member, Cybersecurity Club — competed in 4 intercollegiate CTF events</li>
-                </ul>
+                <h4 class="font-mono font-semibold text-text-primary">The University of Akron</h4>
+                <p class="text-text-muted font-sans text-sm mt-0.5">CIS Cyber Security &nbsp;·&nbsp; GPA 3.242</p>
               </div>
-              <span class="font-mono text-xs text-text-muted whitespace-nowrap">Aug 2022 — May 2026</span>
+              <div class="text-right shrink-0">
+                <p class="font-mono text-xs text-text-muted">Degree</p>
+                <p class="font-mono text-xs text-text-muted">May 2026</p>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+              <div>
+                <h4 class="font-mono font-semibold text-text-primary">Springfield High School</h4>
+              </div>
+              <div class="text-right shrink-0">
+                <p class="font-mono text-xs text-text-muted">Diploma</p>
+                <p class="font-mono text-xs text-text-muted">May 2022</p>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+              <div>
+                <h4 class="font-mono font-semibold text-text-primary">Portage Lakes Career Center</h4>
+                <p class="text-text-muted font-sans text-sm mt-0.5">Cyber Academy Specialization</p>
+              </div>
+              <div class="text-right shrink-0">
+                <p class="font-mono text-xs text-text-muted">Certificate</p>
+                <p class="font-mono text-xs text-text-muted">May 2022</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Certifications -->
+        <!-- Skills -->
         <div class="p-8">
-          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">Certifications</h3>
-          <div class="space-y-3">
+          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">Skills</h3>
+          <div class="flex flex-wrap gap-2">
             {[
-              { name: 'CompTIA A+',       issuer: 'CompTIA',                  date: 'May 2023',     status: 'obtained' },
-              { name: 'CompTIA Network+', issuer: 'CompTIA',                  date: 'Jan 2024',     status: 'obtained' },
-              { name: 'CompTIA Security+',issuer: 'CompTIA',                  date: 'Q3 2025 (est)',status: 'in-progress' },
-              { name: 'eJPT',             issuer: 'eLearnSecurity / INE',     date: 'Nov 2024',     status: 'obtained' },
-            ].map(({ name, issuer, date, status }) => (
-              <div class="flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                  {status === 'obtained'
-                    ? <span class="w-2 h-2 rounded-full bg-accent-green shrink-0"></span>
-                    : <span class="w-2 h-2 rounded-full bg-yellow-400 shrink-0 animate-pulse"></span>
-                  }
-                  <div>
-                    <span class="font-mono text-sm text-text-primary">{name}</span>
-                    <span class="text-text-muted font-mono text-xs ml-2">· {issuer}</span>
-                  </div>
+              'PC building and repair',
+              'Computer maintenance',
+              'Troubleshooting',
+              'Cisco networking',
+              'Proficiency in Microsoft Office',
+              'Introductory programming',
+            ].map(skill => <span class="tag">{skill}</span>)}
+          </div>
+        </div>
+
+        <!-- Work Experience -->
+        <div class="p-8">
+          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">Work Experience</h3>
+          <div class="space-y-8">
+
+            <div>
+              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
+                <div>
+                  <h4 class="font-mono font-semibold text-text-primary">LayerZero Power Systems</h4>
+                  <p class="text-text-muted font-mono text-sm">Cyber Security Intern</p>
                 </div>
-                <span class="font-mono text-xs text-text-muted whitespace-nowrap">{date}</span>
+                <span class="font-mono text-xs text-text-muted whitespace-nowrap">May 2025 – August 2025</span>
               </div>
-            ))}
+              <ul class="space-y-2 text-text-muted font-sans text-sm list-disc list-inside leading-relaxed">
+                <li>
+                  <span class="font-medium text-text-primary/80">Network Monitoring:</span> Engineered a multi-site status monitoring system using Raspberry Pi units to track VPN connectivity, ISP uptime, and environmental factors (HVAC/Power) across three corporate buildings.
+                </li>
+                <li>
+                  <span class="font-medium text-text-primary/80">Identity &amp; Access Management:</span> Enhanced departmental security by auditing the testing department's authentication protocols; successfully migrated staff from shared "Admin" accounts to individual, role-based credentials.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
+                <div>
+                  <h4 class="font-mono font-semibold text-text-primary">Media144</h4>
+                  <p class="text-text-muted font-mono text-sm">Technician</p>
+                </div>
+                <span class="font-mono text-xs text-text-muted whitespace-nowrap">April 2022 – May 2025</span>
+              </div>
+              <ul class="space-y-2 text-text-muted font-sans text-sm list-disc list-inside leading-relaxed">
+                <li>Installed and configured advanced security systems, cameras, and access control solutions in both residential and commercial settings, ensuring optimal functionality and customer satisfaction.</li>
+                <li>Provided exceptional customer service and technical support, quickly diagnosing and resolving issues, while educating clients on system operations and maintenance.</li>
+              </ul>
+            </div>
+
           </div>
         </div>
 
-        <!-- Technical Skills -->
+        <!-- Activities -->
         <div class="p-8">
-          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">Technical Skills</h3>
-          <div class="grid sm:grid-cols-2 gap-6">
-            {[
-              {
-                category: 'Security &amp; Offensive',
-                items: 'Nmap, Burp Suite, Metasploit, Wireshark, Ghidra, John the Ripper, Hashcat, CyberChef',
-              },
-              {
-                category: 'Programming',
-                items: 'Python (primary), Bash, Go, TypeScript, SQL',
-              },
-              {
-                category: 'Infrastructure &amp; DevOps',
-                items: 'Linux (Arch, Debian, RHEL-based), Docker, Kubernetes (K3s), Ansible, Terraform, Git',
-              },
-              {
-                category: 'Networking',
-                items: 'TCP/IP, VLANs, BGP fundamentals, WireGuard, pfSense/OPNsense, Cisco IOS (lab)',
-              },
-              {
-                category: 'Storage &amp; Data',
-                items: 'TrueNAS Scale, ZFS, RAID concepts, S3-compatible storage, InfluxDB, Grafana',
-              },
-              {
-                category: 'Platforms &amp; Tools',
-                items: 'Cloudflare (DNS, Tunnels, Pages, R2), GitHub Actions, Proxmox, VMware ESXi',
-              },
-            ].map(({ category, items }) => (
-              <div>
-                <h4 class="font-mono text-xs font-semibold text-text-muted uppercase tracking-wider mb-2" set:html={category}></h4>
-                <p class="font-sans text-sm text-text-muted leading-relaxed">{items}</p>
-              </div>
-            ))}
+          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">Activities</h3>
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
+            <h4 class="font-mono font-semibold text-text-primary">3D Printing</h4>
+            <span class="font-mono text-xs text-text-muted whitespace-nowrap">2022 – Present</span>
           </div>
+          <ul class="space-y-1 text-text-muted font-sans text-sm list-disc list-inside">
+            <li>Designing files to print.</li>
+            <li>Maintenance of the printers.</li>
+          </ul>
+          <p class="mt-3">
+            <a href="/gallery" class="font-mono text-xs text-accent-cyan hover:underline">View the 3D print gallery →</a>
+          </p>
         </div>
 
-        <!-- Projects -->
+        <!-- References -->
         <div class="p-8">
-          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">
-            Projects <span class="normal-case font-normal text-text-muted">— <a href="/projects" class="hover:text-accent-cyan transition-colors">full writeups at cmbadgett.dev/projects</a></span>
-          </h3>
-          <div class="space-y-6">
+          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">References</h3>
+          <div class="grid sm:grid-cols-3 gap-6">
             {[
-              {
-                title: 'Homelab NAS Server',
-                href: '/projects/homelab-nas',
-                bullets: [
-                  'Designed and built a 72 TB TrueNAS Scale NAS with a 6-drive ZFS RAIDZ2 pool and SSD cache VDEV.',
-                  'Configured automated snapshots to Backblaze B2 using S3-compatible API; RPO < 15 minutes.',
-                  'Runs containerised workloads (Plex, Nextcloud, private registry) with resource isolation via jails.',
-                ],
-              },
-              {
-                title: 'CTF Toolkit',
-                href: '/projects/ctf-toolkit',
-                bullets: [
-                  'Built a Python CLI covering automated encoding detection, classical cipher analysis, and steganalysis.',
-                  'Includes format-string exploit templating and a local per-challenge note tracker.',
-                  'Used across 4 CTF competitions; cut average recon phase from ~30 min to under 10 min.',
-                ],
-              },
-              {
-                title: 'Homelab Network Monitor',
-                href: '/projects/network-monitor',
-                bullets: [
-                  'Deployed Pi-hole + Unbound recursive resolver; blocking 25 %+ of DNS queries network-wide.',
-                  'Built Telegraf → InfluxDB → Grafana pipeline for per-device traffic dashboards and anomaly alerts.',
-                ],
-              },
-              {
-                title: 'Raspberry Pi K3s Cluster',
-                href: '/projects/pi-cluster',
-                bullets: [
-                  'Provisioned a 4-node ARM Kubernetes cluster with K3s; managed via Flux CD GitOps workflow.',
-                  'Integrated Longhorn for distributed persistent storage and Traefik as ingress controller.',
-                ],
-              },
-            ].map(({ title, href, bullets }) => (
-              <div>
-                <h4 class="font-mono font-semibold text-text-primary text-sm mb-2">
-                  <a href={href} class="hover:text-accent-cyan transition-colors">{title}</a>
-                </h4>
-                <ul class="space-y-1 list-disc list-inside text-text-muted font-sans text-sm">
-                  {bullets.map(b => <li>{b}</li>)}
-                </ul>
+              { name: 'Randy Grose',     company: 'Media144',              title: 'Owner'              },
+              { name: 'Caroline Coates', company: 'LayerZero Power Systems',title: 'HR Generalist'     },
+              { name: 'Steve Snyder',    company: 'USBC Summit County',    title: 'Association Manager' },
+            ].map(({ name, company, title }) => (
+              <div class="bg-bg-elevated border border-border rounded p-4">
+                <p class="font-mono font-semibold text-text-primary text-sm">{name}</p>
+                <p class="font-mono text-xs text-text-muted mt-0.5">{company}</p>
+                <p class="font-mono text-xs text-text-muted">{title}</p>
+                <p class="font-mono text-xs text-accent-cyan mt-2">Available on request</p>
               </div>
             ))}
           </div>
@@ -190,20 +188,15 @@ const RESUME_PDF_URL = '/resume.pdf';
 
         <!-- Download CTA -->
         <div class="p-8 bg-bg-elevated/30 flex items-center justify-between flex-wrap gap-4">
-          <p class="font-mono text-text-muted text-sm">Prefer a PDF? Download a formatted copy.</p>
-          <a
-            href={RESUME_PDF_URL}
-            download
-            class="btn-primary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <p class="font-mono text-text-muted text-sm">Download a formatted copy with full contact details.</p>
+          <a href={RESUME_PDF_URL} download class="btn-primary" target="_blank" rel="noopener noreferrer">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a1 1 0 001 1h16a1 1 0 001-1v-3"/>
             </svg>
             Download PDF
           </a>
         </div>
+
       </div>
     </div>
   </div>
