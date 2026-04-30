@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 // Upload your PDF to R2 and update this URL
-const RESUME_PDF_URL = 'https://r2.cmbadgett.dev/resume/christopher-badgett-resume.pdf';
+const RESUME_PDF_URL = '/resume.pdf';
 ---
 
 <BaseLayout
@@ -44,8 +44,8 @@ const RESUME_PDF_URL = 'https://r2.cmbadgett.dev/resume/christopher-badgett-resu
           <p class="font-mono text-accent-cyan mt-1">Cybersecurity Student &amp; Homelab Engineer</p>
           <div class="flex flex-wrap gap-x-6 gap-y-1 mt-3 text-text-muted font-mono text-sm">
             <span>United States</span>
-            <a href="#" class="hover:text-accent-cyan transition-colors">github.com/cmbadgett</a>
-            <a href="#" class="hover:text-accent-cyan transition-colors">linkedin.com/in/cmbadgett</a>
+            <a href="https://github.com/cmbadgett" class="hover:text-accent-cyan transition-colors" target="_blank" rel="noopener noreferrer">github.com/cmbadgett</a>
+            <a href="https://www.linkedin.com/in/christopher-badgett-b59a86286/" class="hover:text-accent-cyan transition-colors" target="_blank" rel="noopener noreferrer">linkedin.com/in/christopher-badgett</a>
             <a href="/contact" class="hover:text-accent-cyan transition-colors">cmbadgett.dev/contact</a>
           </div>
         </div>
