@@ -5,7 +5,11 @@
       "Bash(npm run *)",
       "Bash(python3 -c \"import pptx\")",
       "Bash(cp ~/uploads/\"Senior Project\"/Flipper.png /home/cmbadgett/website/public/images/flipper-zero-cover.png)",
-      "Bash(cp ~/uploads/\"Senior Project\"/\"Analyzing Flipper Zero Wi-Fi Dev Board Attacks.pptx\" /home/cmbadgett/website/public/presentations/flipper-zero-wifi-attacks.pptx)"
+      "Bash(cp ~/uploads/\"Senior Project\"/\"Analyzing Flipper Zero Wi-Fi Dev Board Attacks.pptx\" /home/cmbadgett/website/public/presentations/flipper-zero-wifi-attacks.pptx)",
+      "Bash(git -C /home/cmbadgett/website status --short)",
+      "Bash(git rm *)",
+      "Bash(git -C /home/cmbadgett/website add src/pages/projects/flipper-zero-wifi-attacks.astro .gitignore)",
+      "Bash(git *)"
     ]
   }
 }
