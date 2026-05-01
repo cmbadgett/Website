@@ -6,10 +6,26 @@ const project = projects.find(p => p.slug === 'flipper-zero-wifi-attacks')!;
 ---
 
 <ProjectLayout {...project}>
+  <!-- ── Presentation ── -->
+  <section class="mb-12">
+    <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+      <span class="text-accent-cyan">01.</span> Presentation
+    </h2>
+    <a
+      href="https://1drv.ms/p/c/6ba4637d25a6fa43/IQCAUdLidvDcTKqwiIGmCK5MAY3noVXE9RSb2mBNx-POTeo?e=g1WLvq"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-3 w-fit px-5 py-3 rounded-lg border border-accent-cyan/40 bg-bg-card text-accent-cyan font-mono text-sm hover:bg-accent-cyan/10 transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      View Presentation
+    </a>
+  </section>
+
   <!-- ── Overview ── -->
   <section class="mb-12">
     <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
-      <span class="text-accent-cyan">01.</span> Overview
+      <span class="text-accent-cyan">02.</span> Overview
     </h2>
     <p class="text-text-muted font-sans leading-relaxed mb-4">
       This was my senior capstone project for the Bachelor of Computer Information Systems —
@@ -29,7 +45,7 @@ const project = projects.find(p => p.slug === 'flipper-zero-wifi-attacks')!;
   <!-- ── Lab Setup ── -->
   <section class="mb-12">
     <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
-      <span class="text-accent-cyan">02.</span> Lab Setup
+      <span class="text-accent-cyan">03.</span> Lab Setup
     </h2>
     <div class="bg-bg-card border border-border rounded-lg overflow-hidden mb-6">
       <table class="w-full text-sm">
@@ -63,7 +79,7 @@ const project = projects.find(p => p.slug === 'flipper-zero-wifi-attacks')!;
   <!-- ── Attack Vector 1 ── -->
   <section class="mb-12">
     <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
-      <span class="text-accent-cyan">03.</span> Attack Vector 1 — Deauthentication &amp; Handshake Crack
+      <span class="text-accent-cyan">04.</span> Attack Vector 1 — Deauthentication &amp; Handshake Crack
     </h2>
     <div class="space-y-6 text-text-muted font-sans leading-relaxed">
       <div>
@@ -116,7 +132,7 @@ const project = projects.find(p => p.slug === 'flipper-zero-wifi-attacks')!;
   <!-- ── Attack Vector 2 ── -->
   <section class="mb-12">
     <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
-      <span class="text-accent-cyan">04.</span> Attack Vector 2 — Evil Twin Captive Portal
+      <span class="text-accent-cyan">05.</span> Attack Vector 2 — Evil Twin Captive Portal
     </h2>
     <div class="space-y-6 text-text-muted font-sans leading-relaxed">
       <div>
@@ -163,7 +179,7 @@ const project = projects.find(p => p.slug === 'flipper-zero-wifi-attacks')!;
   <!-- ── Results comparison ── -->
   <section class="mb-12">
     <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
-      <span class="text-accent-cyan">05.</span> Results Comparison
+      <span class="text-accent-cyan">06.</span> Results Comparison
     </h2>
     <div class="bg-bg-card border border-border rounded-lg overflow-hidden">
       <table class="w-full text-sm">
@@ -196,7 +212,7 @@ const project = projects.find(p => p.slug === 'flipper-zero-wifi-attacks')!;
   <!-- ── Lessons Learned ── -->
   <section class="mb-12">
     <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
-      <span class="text-accent-cyan">06.</span> Lessons Learned
+      <span class="text-accent-cyan">07.</span> Lessons Learned
     </h2>
     <ul class="space-y-3 text-text-muted font-sans">
       {[
@@ -217,7 +233,7 @@ const project = projects.find(p => p.slug === 'flipper-zero-wifi-attacks')!;
   <!-- ── What's Next ── -->
   <section>
     <h2 class="font-mono text-xl font-semibold text-text-primary mb-4 flex items-center gap-3">
-      <span class="text-accent-cyan">07.</span> Future Directions
+      <span class="text-accent-cyan">08.</span> Future Directions
     </h2>
     <p class="text-text-muted font-sans leading-relaxed">
       The natural extension is evaluating WPA3 transition mode versus strict mode across different
