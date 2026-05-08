@@ -6,7 +6,7 @@ const RESUME_PDF_URL = '/Christopher_Badgett_Resume.pdf';
 
 <BaseLayout
   title="Resume"
-  description="Resume for Christopher Badgett — CIS Cyber Security student at the University of Akron, seeking a Summer 2026 internship or co-op."
+  description="Resume for Christopher Badgett — CIS Cyber Security senior at the University of Akron, seeking full-time employment in network security, IAM, and threat analysis."
 >
   <section class="bg-bg-surface border-b border-border">
     <div class="container py-16 sm:py-20">
@@ -52,9 +52,9 @@ const RESUME_PDF_URL = '/Christopher_Badgett_Resume.pdf';
           <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-4">Objective</h3>
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <p class="font-sans text-text-muted leading-relaxed">
-              Seeking a Cyber Security internship or co-op opportunity in 2026.
+              Motivated cybersecurity professional and University of Akron senior seeking full-time employment in a role that leverages hands-on experience in network security, identity &amp; access management, and threat analysis.
             </p>
-            <span class="tag-cyan whitespace-nowrap">Available Summer 2026</span>
+            <span class="tag-cyan whitespace-nowrap">Seeking Full-Time</span>
           </div>
         </div>
 
@@ -69,7 +69,7 @@ const RESUME_PDF_URL = '/Christopher_Badgett_Resume.pdf';
               </div>
               <div class="text-right shrink-0">
                 <p class="font-mono text-xs text-text-muted">Degree</p>
-                <p class="font-mono text-xs text-text-muted">May 2026</p>
+                <p class="font-mono text-xs text-text-muted">Aug 2026</p>
               </div>
             </div>
 
@@ -102,11 +102,11 @@ const RESUME_PDF_URL = '/Christopher_Badgett_Resume.pdf';
           <div class="flex flex-wrap gap-2">
             {[
               'PC building and repair',
-              'Computer maintenance',
-              'Troubleshooting',
-              'Cisco networking',
+              'AI Agents',
               'Proficiency in Microsoft Office',
-              'Introductory programming',
+              'Troubleshooting',
+              'Cisco Networking',
+              'Active Directory',
             ].map(skill => <span class="tag">{skill}</span>)}
           </div>
         </div>
@@ -119,6 +119,20 @@ const RESUME_PDF_URL = '/Christopher_Badgett_Resume.pdf';
             <div>
               <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
                 <div>
+                  <h4 class="font-mono font-semibold text-text-primary">Media144</h4>
+                  <p class="text-text-muted font-mono text-sm">Technician</p>
+                </div>
+                <span class="font-mono text-xs text-text-muted whitespace-nowrap">April 2022 – May 2025</span>
+              </div>
+              <ul class="space-y-2 text-text-muted font-sans text-sm list-disc list-inside leading-relaxed">
+                <li>Installed and configured advanced security systems, cameras, and access control solutions in both residential and commercial settings, ensuring optimal functionality and client satisfaction.</li>
+                <li>Delivered exceptional customer service and technical support by rapidly diagnosing and resolving issues, while educating clients on proper system operation and maintenance.</li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
+                <div>
                   <h4 class="font-mono font-semibold text-text-primary">LayerZero Power Systems</h4>
                   <p class="text-text-muted font-mono text-sm">Cyber Security Intern</p>
                 </div>
@@ -126,29 +140,30 @@ const RESUME_PDF_URL = '/Christopher_Badgett_Resume.pdf';
               </div>
               <ul class="space-y-2 text-text-muted font-sans text-sm list-disc list-inside leading-relaxed">
                 <li>
-                  <span class="font-medium text-text-primary/80">Network Monitoring:</span> Engineered a multi-site status monitoring system using Raspberry Pi units to track VPN connectivity, ISP uptime, and environmental factors (HVAC/Power) across three corporate buildings.
+                  <span class="font-medium text-text-primary/80">Network Monitoring:</span> Engineered a multi-site infrastructure monitoring system using Raspberry Pi units to track VPN connectivity, ISP uptime, and environmental factors (HVAC/Power) across three corporate buildings, enabling proactive incident response.
                 </li>
                 <li>
-                  <span class="font-medium text-text-primary/80">Identity &amp; Access Management:</span> Enhanced departmental security by auditing the testing department's authentication protocols; successfully migrated staff from shared "Admin" accounts to individual, role-based credentials.
+                  <span class="font-medium text-text-primary/80">Identity &amp; Access Management:</span> Strengthened departmental security by auditing authentication protocols and migrating staff from shared "Admin" accounts to individual, role-based credentials, reducing the organization's overall attack surface.
                 </li>
-              </ul>
-            </div>
-
-            <div>
-              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
-                <div>
-                  <h4 class="font-mono font-semibold text-text-primary">Media144</h4>
-                  <p class="text-text-muted font-mono text-sm">Technician</p>
-                </div>
-                <span class="font-mono text-xs text-text-muted whitespace-nowrap">April 2022 – May 2025</span>
-              </div>
-              <ul class="space-y-2 text-text-muted font-sans text-sm list-disc list-inside leading-relaxed">
-                <li>Installed and configured advanced security systems, cameras, and access control solutions in both residential and commercial settings, ensuring optimal functionality and customer satisfaction.</li>
-                <li>Provided exceptional customer service and technical support, quickly diagnosing and resolving issues, while educating clients on system operations and maintenance.</li>
               </ul>
             </div>
 
           </div>
+        </div>
+
+        <!-- Competitions -->
+        <div class="p-8">
+          <h3 class="font-mono text-sm font-semibold text-accent-cyan tracking-widest uppercase mb-5">Competitions</h3>
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
+            <div>
+              <h4 class="font-mono font-semibold text-text-primary">Capture Ohio '26: OCRI Statewide CTF</h4>
+            </div>
+            <span class="font-mono text-xs text-text-muted whitespace-nowrap">1st Place &nbsp;·&nbsp; April 2026</span>
+          </div>
+          <ul class="space-y-1 text-text-muted font-sans text-sm list-disc list-inside leading-relaxed">
+            <li>Placed first among all competing university teams in the Ohio Cyber Range Institute's statewide Capture the Flag competition.</li>
+            <li>Specialized in OSINT (Open Source Intelligence) challenges, applying advanced research and digital reconnaissance techniques to solve complex problems under time pressure.</li>
+          </ul>
         </div>
 
         <!-- Activities -->
@@ -158,9 +173,9 @@ const RESUME_PDF_URL = '/Christopher_Badgett_Resume.pdf';
             <h4 class="font-mono font-semibold text-text-primary">3D Printing</h4>
             <span class="font-mono text-xs text-text-muted whitespace-nowrap">2022 – Present</span>
           </div>
-          <ul class="space-y-1 text-text-muted font-sans text-sm list-disc list-inside">
-            <li>Designing files to print.</li>
-            <li>Maintenance of the printers.</li>
+          <ul class="space-y-1 text-text-muted font-sans text-sm list-disc list-inside leading-relaxed">
+            <li>Model original designs in Fusion 360 and Tinkercad, producing functional and creative parts for a range of personal and technical applications.</li>
+            <li>Slice and manage print jobs in Bambu Studio across two Bambu Lab A1 printers; perform routine hardware maintenance and troubleshooting to maintain consistent, reliable output.</li>
           </ul>
           <p class="mt-3">
             <a href="/gallery" class="font-mono text-xs text-accent-cyan hover:underline">View the 3D print gallery →</a>
