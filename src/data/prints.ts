@@ -15,7 +15,7 @@ export const prints: Print[] = [
     description:
       'Custom enclosure for a Pi 4B with a 40 mm Noctua fan duct that directs airflow directly over the SoC. Keeps the board under 45 °C under sustained load — about 20 °C cooler than passive stock cases.',
     material: 'PETG — Black',
-    printer: 'Bambu Lab P1S',
+    printer: 'Bambu Lab A1',
     imageUrl: 'https://r2.cmbadgett.dev/gallery/rpi4-case.jpg',
     tags: ['functional', 'electronics', 'cooling'],
   },
@@ -23,9 +23,9 @@ export const prints: Print[] = [
     id: 'cluster-rack',
     title: 'Pi Cluster Rack — 4U',
     description:
-      'A stacked rack that holds four Raspberry Pi 4 boards, a managed switch, and power distribution in a tidy 19 cm footprint. Designed in Fusion 360 with individual trays that slide out for maintenance.',
+      'A stacked rack that holds two Raspberry Pi 4 boards, a managed switch, and power distribution in a tidy 19 cm footprint. Designed in Fusion 360 with individual trays that slide out for maintenance.',
     material: 'PLA+ — Space Grey',
-    printer: 'Bambu Lab P1S',
+    printer: 'Bambu Lab A1',
     imageUrl: 'https://r2.cmbadgett.dev/gallery/cluster-rack.jpg',
     tags: ['functional', 'homelab', 'electronics'],
   },
@@ -35,7 +35,7 @@ export const prints: Print[] = [
     description:
       'Classic multi-segment flexi dragon printed in place with no supports and no assembly. 187 linked segments with a 0.15 mm layer height. One of those prints you hand to someone who swears FDM is boring.',
     material: 'TPU 95A — Silk Red',
-    printer: 'Bambu Lab P1S',
+    printer: 'Bambu Lab A1',
     imageUrl: 'https://r2.cmbadgett.dev/gallery/articulated-dragon.jpg',
     tags: ['art', 'flexible', 'flexi-print'],
   },
@@ -45,7 +45,7 @@ export const prints: Print[] = [
     description:
       'Parametric spool holder designed to mount directly to the pegboard panel behind the printer. Fits spools from 165 mm to 220 mm wide, with integrated bearings for smooth pay-out and a built-in filament guide arm.',
     material: 'ASA — White',
-    printer: 'Bambu Lab P1S',
+    printer: 'Bambu Lab A1',
     imageUrl: 'https://r2.cmbadgett.dev/gallery/spool-holder.jpg',
     tags: ['functional', '3d-printing', 'workshop'],
   },
@@ -55,7 +55,7 @@ export const prints: Print[] = [
     description:
       'Set of stackable, snap-on cable clips sized for ethernet, USB-C, and DC barrel cables. Designed with a dovetail channel so they daisy-chain along desk rails without screws.',
     material: 'PLA — Matte Black',
-    printer: 'Bambu Lab P1S',
+    printer: 'Bambu Lab A1',
     imageUrl: 'https://r2.cmbadgett.dev/gallery/cable-clips.jpg',
     tags: ['functional', 'desk', 'cable-management'],
   },
@@ -65,7 +65,7 @@ export const prints: Print[] = [
     description:
       'A pegboard-compatible mount that holds up to 12 screwdrivers with embedded 8 mm N52 magnets. Keeps the bench clear and makes it obvious at a glance when something is missing.',
     material: 'PLA+ — Dark Blue',
-    printer: 'Bambu Lab P1S',
+    printer: 'Bambu Lab A1',
     imageUrl: 'https://r2.cmbadgett.dev/gallery/screwdriver-wall.jpg',
     tags: ['functional', 'workshop', 'storage'],
   },
@@ -85,7 +85,7 @@ export const prints: Print[] = [
     description:
       'Mounts a small 8-port managed switch to the underside of the desk, out of sight. Cable exit cutouts are positioned to route neatly through the desk grommet without kinking.',
     material: 'PETG — Black',
-    printer: 'Bambu Lab P1S',
+    printer: 'Bambu Lab A1',
     imageUrl: 'https://r2.cmbadgett.dev/gallery/switch-tray.jpg',
     tags: ['functional', 'homelab', 'desk'],
   },
