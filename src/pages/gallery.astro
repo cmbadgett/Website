@@ -22,6 +22,14 @@ const allTags = [...new Set(prints.flatMap(p => p.tags))].sort();
   </section>
 
   <div class="container py-16">
+    <div class="mb-10 bg-bg-card border border-yellow-500/30 rounded-lg px-5 py-4 flex items-start gap-3">
+      <span class="text-yellow-400 font-mono shrink-0 mt-0.5">⚠</span>
+      <div>
+        <p class="font-mono text-xs text-yellow-400 font-semibold mb-1">// work in progress</p>
+        <p class="font-sans text-sm text-text-muted">Gallery images are still being uploaded to the CDN — some cards may not display photos yet.</p>
+      </div>
+    </div>
+
     <!-- Tag filters -->
     <div class="mb-10 flex flex-wrap gap-2" id="tag-filters">
       <button
